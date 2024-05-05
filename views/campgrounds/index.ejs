@@ -1,0 +1,66 @@
+<% layout('/layouts/boilerplate') %>
+<style>
+    h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            object-fit: cover;
+            height: 250px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .btn-add {
+            margin-bottom: 20px;
+        }
+</style>
+<div id="map" style="width: 100%; height:500px"></div>
+
+    <div class="container">
+        <h1>All Campgrounds</h1>
+        <a href="/campgrounds/news" class="btn btn-primary btn-add">Add Campground</a>
+        <ul>
+            <% for(let c of campgrounds) { %>
+            <li>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <% if (c.imageURL.length) { %>
+                            <img src="<%= c.imageURL[0].url %>" alt="Campground Image" class="card-img-top" crossorigin="anonymous">
+                            <% } else { %>
+                            <img src="https://via.placeholder.com/250" alt="Placeholder Image" class="card-img-top" crossorigin="anonymous">
+                            <% } %>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= c.title %></h5>
+                                <p class="card-text"><%= c.description %></p>
+                                <p class="card-text"><small class="text-muted"><%= c.location %></small></p>
+                                <a href="/campgrounds/<%= c._id %>" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+<script>
+  const mapToken='<%-process.env.MAPBOX_TOKEN %>'
+  const campgrounds= {features: <%- JSON.stringify(campgrounds) %>}
+ </script> 
+    <script src="/javascripts/clusterMap.js">
+
+    </script>

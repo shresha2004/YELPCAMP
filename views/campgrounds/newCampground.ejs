@@ -1,0 +1,94 @@
+<% layout('/layouts/boilerplate') %>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            /* overflow-y:hidden; */
+        }
+        .card {
+            margin-top: 50px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+      
+
+        .card-body {
+            padding: 30px;
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-success {
+            width: 100%;
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .btn-back {
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+       
+      
+
+  
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow mb-3 mt-5">
+                    <div class="card-header bg-dark text-white">
+                        <h1>New Campground</h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="/campgrounds" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label class="form-label" for="title">Title:</label>
+                                <input class="form-control" required id="title" type="text" name="campgrounds[title]">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="location">Location:</label>
+                                <input class="form-control" required id="location" type="text" name="campgrounds[location]">
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="price">Price:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input required type="text" class="form-control" placeholder="0.00" required aria-label="Price" aria-describedby="basic-addon1" name="campgrounds[price]">
+                                    <div class="valid-feedback">Looks good!</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="formFile" class="form-label">Upload Image:</label>
+                                <input class="form-control" type="file" id="formFile" name="image" multiple>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="description">Description:</label>
+                                <textarea class="form-control" placeholder="Explain your experience" id="description" name="campgrounds[description]" required></textarea>
+                                <div class="valid-feedback">Looks good!</div>
+                            </div>
+                            <button class="btn btn-success">Add Campground</button>
+                        </form>
+                        <a href="/campgrounds" class="btn btn-back mt-3">Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
