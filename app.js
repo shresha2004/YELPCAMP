@@ -133,7 +133,7 @@ const registerRoutes=require('./routes/users');
 app.use(registerRoutes);
 
 
-app.get('/home',(req,res)=>{
+app.get('/',(req,res)=>{
     res.render('home.ejs');
 })
 
