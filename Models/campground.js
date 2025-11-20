@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const Review=require('./review');
 const { required } = require('joi');
 
+
 const ImageSchema=new Schema({
     url:String,
     filename:String
@@ -20,7 +21,7 @@ const CampgroundSchema= new Schema({
     geometry:{
         type:{
             type:String,
-            enum:['Point'],//This is method syntax for location access by mongoose
+            enum:['Point'],
             required:true
         },
         coordinates:{
