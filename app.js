@@ -22,9 +22,6 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 
-// -------------------------------------
-// Mongoose Connection
-// -------------------------------------
 async function main() {
     await mongoose.connect(dbURL);
 }
@@ -32,9 +29,7 @@ main().catch(err => console.log(err));
 
 let app = express();
 
-// -------------------------------------
-// Middleware & Setup
-// -------------------------------------
+
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsmate);
@@ -64,9 +59,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-// -------------------------------------
-// Helmet CSP (FINAL FIXED VERSION)
-// -------------------------------------
+
 
 const scriptSrcUrls = [
     "https://api.mapbox.com",
@@ -78,7 +71,7 @@ const styleSrcUrls = [
     "https://fonts.googleapis.com",
     "https://api.mapbox.com",
     "https://cdn.jsdelivr.net",
-    "https://stackpath.bootstrapcdn.com"   // REQUIRED FOR BOOTSTRAP CSS
+    "https://stackpath.bootstrapcdn.com"   
 ];
 
 const connectSrcUrls = [
@@ -109,9 +102,7 @@ app.use(
     })
 );
 
-// -------------------------------------
-// Passport Config
-// -------------------------------------
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -119,7 +110,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Flash + User Info Middleware
+
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
@@ -127,18 +118,14 @@ app.use((req, res, next) => {
     next();
 });
 
-// -------------------------------------
-// DB Connection Logs
-// -------------------------------------
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
     console.log("Database connected");
 });
 
-// -------------------------------------
-// Views & Static Files
-// -------------------------------------
+
 let path = require('path');
 const campground = require('./Models/campground');
 
@@ -146,12 +133,10 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Fix favicon.ico error
+
 app.get('/favicon.ico', (req, res) => res.status(204));
 
-// -------------------------------------
-// Validation Middleware
-// -------------------------------------
+
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if (error) {
@@ -172,9 +157,7 @@ const validateCampground = (req, res, next) => {
     }
 };
 
-// -------------------------------------
-// Routes
-// -------------------------------------
+
 const campgroundsRoutes = require('./routes/campgrounds');
 app.use('/campgrounds', campgroundsRoutes);
 
@@ -195,9 +178,7 @@ app.get('/fakeUser', async (req, res) => {
     console.log(newUser);
 });
 
-// -------------------------------------
-// Error Handling
-// -------------------------------------
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page not found', 404));
 });
@@ -208,9 +189,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('./partials/error', { err });
 });
 
-// -------------------------------------
-// Start Server
-// -------------------------------------
+
 const port = process.env.PORT || 3500;
 app.listen(port, () => {
     console.log(`Serving on port ${port}`);
